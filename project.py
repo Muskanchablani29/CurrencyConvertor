@@ -1,7 +1,14 @@
-users = {}  # Dictionary to store username-password pairs
+import time
+
+users = {}
+
+def print_slowly(text, delay=0.1):
+    for char in text:
+        print(char, end='', flush=True)
+        time.sleep(delay)
+    print()
 
 def signup():
-    """Function to register a new user"""
     print("\nSign Up:")
     username = input("Enter a new username: ")
     if username in users:
@@ -13,7 +20,6 @@ def signup():
     return True
 
 def login():
-    """Function to log in an existing user"""
     print("\nLogin:")
     username = input("Enter username: ")
     password = input("Enter password: ")
@@ -26,15 +32,13 @@ def login():
         return False
 
 def display_menu():
-    """Displays the menu options"""
-    print("\nCurrency Converter Menu:")
-    print("1. Convert Currency")
-    print("2. Update Exchange Rates")
-    print("3. Logout")
+    print("\n\t\t\t\t\tCurrency Converter Menu:")
+    print("\t\t\t\t\t1. Convert Currency")
+    print("\t\t\t\t\t2. Update Exchange Rates")
+    print("\t\t\t\t\t3. Logout")
     return input("Choose an option (1/2/3): ")
 
 def currency_converter(amount, from_currency, to_currency, exchange_rates):
-    """Converts currency based on hardcoded exchange rates"""
     if from_currency not in exchange_rates or to_currency not in exchange_rates:
         return "Invalid currency code"
 
@@ -42,29 +46,35 @@ def currency_converter(amount, from_currency, to_currency, exchange_rates):
     converted_amount = amount_in_usd * exchange_rates[to_currency]
     return round(converted_amount, 2)
 
-def update_exchange_rates(exchange_rates):
-    """Allows users to update exchange rates manually"""
-    print("\nUpdate Exchange Rates:")
-    for currency, rate in exchange_rates.items():
-        new_rate = input(f"Enter new rate for {currency} (current: {rate}) or press Enter to keep unchanged: ")
-        if new_rate.strip():
-            try:
-                exchange_rates[currency] = float(new_rate)
-            except ValueError:
-                print(f"Invalid input for {currency}, keeping old rate.")
-    print("Exchange rates updated successfully!")
+def update_exchange_rate(exchange_rates):
+    """Allows users to update a single exchange rate manually"""
+    print("\nUpdate a Single Exchange Rate:")
+    currency = input("Enter the currency code you want to update (e.g., USD, EUR): ").upper()
+    if currency in exchange_rates:
+        new_rate = input(f"Enter new rate for {currency} (current: {exchange_rates[currency]}): ")
+        try:
+            exchange_rates[currency] = float(new_rate)
+            print(f"Exchange rate for {currency} updated successfully!")
+        except ValueError:
+            print(f"Invalid input for {currency}, keeping old rate.")
+    else:
+        print("Invalid currency code.")
 
-# Hardcoded exchange rates (relative to 1 USD)
 exchange_rates = {
     "USD": 1.0, "EUR": 0.92, "GBP": 0.79, "INR": 83.0, "JPY": 148.6,
-    "AUD": 1.54, "CAD": 1.35, "CNY": 7.19
+    "AUD": 1.54, "CAD": 1.35, "CNY": 7.19 , "SGD": 1.43, "CHF": 0.98 ,
+    "MYR": 4.34, "NZD": 1.66, "THB": 31.22, "HUF": 306.0, "AED": 3.67,
+    "HKD": 7.75, "MXN": 22.0, "ZAR": 17.0, "PHP": 50.51, "SEK": 9.58,
+    "IDR": 14125.0, "SAR": 3.75, "BRL": 5.29, "TRY": 6.85, "KES": 106.0,
+    "KRW": 1195.0, "EGP": 15.7, "IQD": 1190.0, "NOK": 10.35, "KWD": 0.30,
+    "RUB": 75.0, "DKK": 6.66, "PKR": 166.0, "ILS": 3.41, "PLN": 3.97
 }
 
 while True:
-    print("\nWelcome to the Currency Converter!")
-    print("1. Sign Up")
-    print("2. Login")
-    print("3. Exit")
+    print_slowly("\n\t\t\t\tWelcome to the Currency Converter!")
+    print("\t\t\t\t\t1. Sign Up")
+    print("\t\t\t\t\t2. Login")
+    print("\t\t\t\t\t3. Exit")
     main_choice = input("Choose an option (1/2/3): ")
 
     if main_choice == "1":
@@ -83,7 +93,7 @@ while True:
                     except ValueError:
                         print("Invalid amount. Please enter a number.")
                 elif choice == "2":  # Update Exchange Rates
-                    update_exchange_rates(exchange_rates)
+                    update_exchange_rate(exchange_rates)
                 elif choice == "3":  # Logout
                     print("Logging out...")
                     break
