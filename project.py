@@ -39,7 +39,7 @@ def display_menu():
     return input("Choose an option (1/2/3): ")
 
 def currency_converter(amount, from_currency, to_currency, exchange_rates):
-    if from_currency not in exchange_rates or to_currency not in exchange_rates:
+    if from_currency != exchange_rates or to_currency != exchange_rates:
         return "Invalid currency code"
 
     amount_in_usd = amount / exchange_rates[from_currency]
@@ -47,7 +47,7 @@ def currency_converter(amount, from_currency, to_currency, exchange_rates):
     return round(converted_amount, 2)
 
 def update_exchange_rate(exchange_rates):
-    """Allows users to update a single exchange rate manually"""
+
     print("\nUpdate a Single Exchange Rate:")
     currency = input("Enter the currency code you want to update (e.g., USD, EUR): ").upper()
     if currency in exchange_rates:
@@ -80,10 +80,10 @@ while True:
     if main_choice == "1":
         signup()
     elif main_choice == "2":
-        if login():  # Only proceed if login is successful
+        if login():  
             while True:
                 choice = display_menu()
-                if choice == "1":  # Convert Currency
+                if choice == "1":  
                     try:
                         amount = float(input("\nEnter amount: "))
                         from_currency = input("Enter from currency (e.g., USD, EUR): ").upper()
@@ -92,7 +92,7 @@ while True:
                         print(f"{amount} {from_currency} is approximately {result} {to_currency}")
                     except ValueError:
                         print("Invalid amount. Please enter a number.")
-                elif choice == "2":  # Update Exchange Rates
+                elif choice == "2":  
                     update_exchange_rate(exchange_rates)
                 elif choice == "3":  # Logout
                     print("Logging out...")
