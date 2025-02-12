@@ -1,9 +1,16 @@
 import time
+import os
 
 users = {}
 
-def print_slowly(text, delay=0.1):
+def print_slowly(text, delay=0.001):
     for char in text:
+        print(char, end='', flush=True)
+        time.sleep(delay)
+    print()
+
+def print_slowly2(text2, delay=0.1):
+    for char in text2:
         print(char, end='', flush=True)
         time.sleep(delay)
     print()
@@ -17,6 +24,8 @@ def signup():
     password = input("Enter a password: ")
     users[username] = password
     print("Signup successful! You can now log in.")
+    time.sleep(1)
+    os.system('cls')
     return True
 
 def login():
@@ -26,20 +35,24 @@ def login():
 
     if username in users and users[username] == password:
         print(f"Welcome, {username}!")
+        time.sleep(1)
+        os.system('cls')
         return True
     else:
         print("Invalid username or password! Please try again.")
         return False
 
 def display_menu():
-    print("\n\t\t\t\t\tCurrency Converter Menu:")
+    print_slowly("="*80)
+    print_slowly2("\t\t\t\t\tCurrency Converter Menu:")
+    print_slowly("="*80)
     print("\t\t\t\t\t1. Convert Currency")
     print("\t\t\t\t\t2. Update Exchange Rates")
     print("\t\t\t\t\t3. Logout")
     return input("Choose an option (1/2/3): ")
 
 def currency_converter(amount, from_currency, to_currency, exchange_rates):
-    if from_currency != exchange_rates or to_currency != exchange_rates:
+    if from_currency not in exchange_rates or to_currency not in exchange_rates:
         return "Invalid currency code"
 
     amount_in_usd = amount / exchange_rates[from_currency]
@@ -71,7 +84,9 @@ exchange_rates = {
 }
 
 while True:
-    print_slowly("\n\t\t\t\tWelcome to the Currency Converter!")
+    print_slowly("="*80)
+    print_slowly2("\t\t\t\tWelcome to the Currency Converter!")
+    print_slowly("="*80)
     print("\t\t\t\t\t1. Sign Up")
     print("\t\t\t\t\t2. Login")
     print("\t\t\t\t\t3. Exit")
@@ -94,7 +109,7 @@ while True:
                         print("Invalid amount. Please enter a number.")
                 elif choice == "2":  
                     update_exchange_rate(exchange_rates)
-                elif choice == "3":  # Logout
+                elif choice == "3": 
                     print("Logging out...")
                     break
                 else:
